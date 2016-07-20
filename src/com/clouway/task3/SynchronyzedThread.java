@@ -6,15 +6,10 @@ package com.clouway.task3;
 public final class SynchronyzedThread implements Runnable {
   private Integer from;
   private Integer to;
-  private Thread otherThread;
 
   public SynchronyzedThread(Integer from, Integer to) {
     this.from = from;
     this.to = to;
-  }
-
-  public void informThread(Thread otherThread) {
-    this.otherThread = otherThread;
   }
 
   @Override
@@ -31,6 +26,7 @@ public final class SynchronyzedThread implements Runnable {
           e.printStackTrace();
         }
       }
+      notifyAll();
     }
   }
 }
