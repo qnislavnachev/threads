@@ -3,7 +3,7 @@ package com.clouway.task2;
 /**
  * @author Vasil Mitov <v.mitov.clouway@gmail.com>
  */
-public class SynchronyzedThread implements Runnable {
+public final class SynchronyzedThread implements Runnable {
   private Integer from;
   private Integer to;
   private Thread otherThread;
