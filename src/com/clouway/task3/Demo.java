@@ -6,10 +6,17 @@ package com.clouway.task3;
  */
 public class Demo {
   public static void main(String[] args) {
-    SynchronyzedThread counter = new SynchronyzedThread(1, 10);
-    Thread firstThread = new Thread(counter);
-    Thread secondThread = new Thread(counter);
-    firstThread.start();
-    secondThread.start();
+    SynchronizedIncrement synchronizedIncrement = new SynchronizedIncrement();
+    SynchronyzedThread counter1 = new SynchronyzedThread(1, 10,1000, synchronizedIncrement);
+    SynchronyzedThread counter2 = new SynchronyzedThread(1, 3,500, synchronizedIncrement);
+
+    Thread t1 = new Thread(counter1);
+    Thread t2 = new Thread(counter2);
+
+    counter1.informThread(t2);
+    counter2.informThread(t1);
+
+    t1.start();
+    t2.start();
   }
 }

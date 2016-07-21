@@ -18,10 +18,6 @@ public final class CountingThread implements Runnable {
       System.out.println(current);
       try {
         Thread.sleep(1000);
-        if (current == maxCount) {
-          System.out.println(current);
-          Thread.currentThread().interrupt();
-        }
         current++;
       } catch (InterruptedException e) {
         System.out.println(current);

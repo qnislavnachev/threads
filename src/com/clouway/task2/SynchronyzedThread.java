@@ -24,13 +24,11 @@ public final class SynchronyzedThread implements Runnable {
       try {
         Thread.sleep(1000);
       } catch (InterruptedException e) {
-        System.out.println(Thread.currentThread().getName().toString() + "was interupted at value:");
-        System.out.println(i);
+        System.out.println(Thread.currentThread().getName().toString() + " was interupted at value:"+ "\n"+i);
         return;
       }
     }
     otherThread.interrupt();
-
   }
 }
 
