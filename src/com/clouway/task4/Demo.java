@@ -1,4 +1,4 @@
-package com.clouway.taks4;
+package com.clouway.task4;
 
 /**
  * @author Vasil Mitov <v.mitov.clouway@gmail.com>

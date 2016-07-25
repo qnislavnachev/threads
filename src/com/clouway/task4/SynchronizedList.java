@@ -1,4 +1,4 @@
-package com.clouway.taks4;
+package com.clouway.task4;
 
 import java.util.LinkedList;
 import java.util.List;
