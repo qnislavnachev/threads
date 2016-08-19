@@ -63,5 +63,4 @@ public class TTLThread extends Thread {
     System.out.println(Thread.currentThread().getName()+"  DIED");
     fieldLives=false;
   }
-
 }
