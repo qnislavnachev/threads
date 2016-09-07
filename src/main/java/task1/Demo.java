@@ -1,9 +1,18 @@
 package task1;
 
+import java.util.Scanner;
+
 public class Demo {
     public static void main(String[] args) {
-        Threads thread = new Threads();
+        Scanner scanner = new Scanner(System.in);
+        CountingThread thread = new CountingThread();
         thread.start();
-        thread.threadKiller(thread,"stop");
+        System.out.println("Enter 'stop' to break counting of thread:");
+        while (true) {
+            if (scanner.nextLine().equals("stop")) {
+                thread.stopCounting();
+                return;
+            }
+        }
     }
 }
