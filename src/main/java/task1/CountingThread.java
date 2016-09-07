@@ -2,10 +2,11 @@ package task1;
 
 public class CountingThread extends Thread {
     private int count = 0;
+    private boolean flag = true;
 
     @Override
     public void run() {
-        while (true) {
+        while (flag) {
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
@@ -20,6 +21,6 @@ public class CountingThread extends Thread {
      * stop a thread
      */
     public void stopCounting() {
-        interrupt();
+        flag = false;
     }
 }
