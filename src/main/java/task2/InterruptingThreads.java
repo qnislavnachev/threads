@@ -1,25 +1,26 @@
 package task2;
 
-public class Threads extends Thread {
+public class InterruptingThreads extends Thread {
     private String threadName;
     private int countTo;
     private int sleepTime;
     private int counter = 0;
-    private Threads thread;
+    private InterruptingThreads threadToBeInterrupted;
+    private boolean flag = true;
 
-    public Threads(String threadName, int countTo, int sleepTime) {
+    public InterruptingThreads(String threadName, int countTo, int sleepTime) {
         this.threadName = threadName;
         this.countTo = countTo;
         this.sleepTime = sleepTime;
     }
 
-    public void hasToInterrupt(Threads thread) {
-        this.thread = thread;
+    public void interrupt(InterruptingThreads thread) {
+        this.threadToBeInterrupted = thread;
     }
 
     @Override
     public void run() {
-        while (counter < countTo) {
+        while (counter < countTo && flag) {
             try {
                 sleep(sleepTime);
             } catch (InterruptedException e) {
@@ -29,6 +30,10 @@ public class Threads extends Thread {
             counter++;
             System.out.println(threadName + ": " + counter);
         }
-        thread.interrupt();
+        stopEnemyThread();
+    }
+
+    private void stopEnemyThread() {
+        threadToBeInterrupted.flag = false;
     }
 }
