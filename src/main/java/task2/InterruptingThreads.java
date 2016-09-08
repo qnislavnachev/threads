@@ -20,7 +20,7 @@ public class InterruptingThreads extends Thread {
 
     @Override
     public void run() {
-        while (counter < countTo && flag) {
+        while (counter < countTo || flag) {
             try {
                 sleep(sleepTime);
             } catch (InterruptedException e) {
