@@ -25,7 +25,7 @@ public class MyList {
         notify();
     }
 
-    public synchronized void remove() {
+    public synchronized void remove(int index) {
         if (newList.isEmpty()) {
             try {
                 wait();
@@ -34,7 +34,7 @@ public class MyList {
             }
         }
         System.out.println("Last item is removed!");
-        newList.remove(newList.size() - 1);
+        newList.remove(index);
         notify();
     }
 }
