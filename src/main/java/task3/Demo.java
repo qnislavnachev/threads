@@ -2,9 +2,9 @@ package task3;
 
 public class Demo {
     public static void main(String[] args) {
-        Counter counter = new Counter(10);
-        Thread thread1 = new Thread(counter);
-        Thread thread2 = new Thread(counter);
+        Object lock = new Object();
+        Thread thread1 = new Thread(new Counter(10, lock));
+        Thread thread2 = new Thread(new Counter(10, lock));
 
         thread1.start();
         thread2.start();
