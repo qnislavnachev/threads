@@ -6,6 +6,7 @@ import java.util.List;
 public class MyList {
     public final List<Integer> newList;
     public final int maxSize;
+    private int index = -1;
 
     public MyList(int maxSize) {
         this.maxSize = maxSize;
@@ -22,10 +23,11 @@ public class MyList {
         }
         System.out.println("New item added.");
         newList.add(number);
+        index++;
         notify();
     }
 
-    public synchronized void remove(int index) {
+    public synchronized void remove() {
         if (newList.isEmpty()) {
             try {
                 wait();
@@ -35,6 +37,7 @@ public class MyList {
         }
         System.out.println("Last item is removed!");
         newList.remove(index);
+        index--;
         notify();
     }
 }
