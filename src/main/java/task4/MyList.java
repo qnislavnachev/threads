@@ -13,7 +13,7 @@ public class MyList {
     }
 
     public synchronized void insert(int number) {
-        while (maxSize == newList.size()) {
+        if (maxSize == newList.size()) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -26,7 +26,7 @@ public class MyList {
     }
 
     public synchronized void remove() {
-        while (newList.isEmpty()) {
+        if (newList.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
