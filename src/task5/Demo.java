@@ -2,7 +2,7 @@ package task5;
 
 public class Demo {
     public static void main(String[] args) {
-        TimeoutTable<String, Integer> table = new TimeoutTable<>(10);
+        TimeoutTable<String, Integer> table = new TimeoutTable<>(10000);
         table.put("Lemons", 10);
         table.put("Oranges", 5);
         try {

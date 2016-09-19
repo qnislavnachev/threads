@@ -1,43 +1,42 @@
 package task5;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TimeoutTable<K, V> {
-    private Map<K, V> table = Collections.synchronizedMap(new HashMap<K, V>());
-    private CountingTable<K> countingTable = new CountingTable<K>();
+    private Hashtable<K, V> table = new Hashtable<>();
+    private LinkedHashMap<K, Long> countingTable = new LinkedHashMap<>();
     private TimeoutThread<K, V> thread;
-    private int timeout;
+    private long timeout;
 
-    public TimeoutTable(int timeout) {
-        this.timeout = timeout;
-        thread = new TimeoutThread<K, V>(table, countingTable, timeout);
+    public TimeoutTable(long timeout) {
+        this.timeout =  timeout;
+        thread = new TimeoutThread<>(table, countingTable, timeout);
         thread.start();
     }
 
-    public void put(K key, V value) {
+    public synchronized void put(K key, V value) {
         if (table.containsKey(key)) {
+            table.remove(key);
             table.put(key, value);
-            countingTable.resetValue(key);
-            System.out.println("Item was used !");
+            countingTable.put(key, System.currentTimeMillis());
+            System.out.println("Item was used : " + key);
         } else {
             table.put(key, value);
-            countingTable.put(key, 0);
-            System.out.println("New item added !");
+            countingTable.put(key, System.currentTimeMillis());
+            System.out.println("New item added : " + key);
         }
     }
 
-    public V get(K key) {
+    public synchronized V get(K key) {
         if (table.containsKey(key)) {
-            countingTable.resetValue(key);
-            System.out.println("Item was used !");
+            countingTable.put(key, System.currentTimeMillis());
+            System.out.println("Item was used : " + key);
             return table.get(key);
         }
         return null;
     }
 
-    public void remove(K key) {
+    public synchronized void remove(K key) {
         table.remove(key);
     }
 }
