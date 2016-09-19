@@ -1,10 +1,8 @@
 package task5;
 
-public class demo {
+public class Demo {
     public static void main(String[] args) {
-        ObjectTable table = new ObjectTable();
-        TimeoutThread thread = new TimeoutThread(table, 10);
-        thread.start();
+        TimeoutTable<String, Integer> table = new TimeoutTable<>(10);
         table.put("Lemons", 10);
         table.put("Oranges", 5);
         try {

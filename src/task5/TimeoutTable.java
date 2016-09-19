@@ -1,28 +1,43 @@
 package task5;
 
-import java.util.Hashtable;
-import java.util.Set;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-public class TimeoutTable {
-    private Hashtable<String, Integer> table;
+public class TimeoutTable<K, V> {
+    private Map<K, V> table = Collections.synchronizedMap(new HashMap<K, V>());
+    private CountingTable<K> countingTable = new CountingTable<K>();
+    private TimeoutThread<K, V> thread;
+    private int timeout;
 
-    public TimeoutTable() {
-        table = new Hashtable<>();
+    public TimeoutTable(int timeout) {
+        this.timeout = timeout;
+        thread = new TimeoutThread<K, V>(table, countingTable, timeout);
+        thread.start();
     }
 
-    public void put(String key, Integer value) {
-        table.put(key, value);
+    public void put(K key, V value) {
+        if (table.containsKey(key)) {
+            table.put(key, value);
+            countingTable.resetValue(key);
+            System.out.println("Item was used !");
+        } else {
+            table.put(key, value);
+            countingTable.put(key, 0);
+            System.out.println("New item added !");
+        }
     }
 
-    public Integer get(String key) {
-        return table.get(key);
+    public V get(K key) {
+        if (table.containsKey(key)) {
+            countingTable.resetValue(key);
+            System.out.println("Item was used !");
+            return table.get(key);
+        }
+        return null;
     }
 
-    public void resetValue(String key) {
-        table.put(key, 0);
-    }
-
-    public Set<String> keyList() {
-        return table.keySet();
+    public void remove(K key) {
+        table.remove(key);
     }
 }

@@ -1,25 +1,29 @@
 package task5;
 
-public class TimeoutThread extends Thread {
-    private ObjectTable table;
+import java.util.Map;
+
+public class TimeoutThread<K, V> extends Thread {
+    private Map<K, V> table;
+    private CountingTable<K> countingTable;
     private int timeout;
 
-    public TimeoutThread(ObjectTable table, int timeout) {
+    public TimeoutThread(Map<K, V> table, CountingTable<K> countingTable, int timeout) {
         this.table = table;
+        this.countingTable = countingTable;
         this.timeout = timeout;
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (!table.isEmpty()) {
             try {
                 sleep(1000);
             } catch (InterruptedException e) {
                 System.out.println("Thread was interrupted !");
             }
-            for (String each : table.getTable()) {
-                table.getTimeoutTable().put(each, (table.getTimeoutTable().get(each) + 1));
-                if (table.getTimeoutTable().get(each) == timeout) {
+            for (K each : countingTable.keyList()) {
+                countingTable.put(each, (countingTable.get(each) + 1));
+                if (countingTable.get(each) == timeout) {
                     table.remove(each);
                     System.out.println("Item is removed!");
                 }
