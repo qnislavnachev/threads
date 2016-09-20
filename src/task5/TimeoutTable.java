@@ -16,8 +16,7 @@ public class TimeoutTable<K, V> {
 
     public synchronized void put(K key, V value) {
         if (table.containsKey(key)) {
-            table.remove(key);
-            table.put(key, value);
+            countingTable.remove(key);
             countingTable.put(key, System.currentTimeMillis());
             System.out.println("Item was used : " + key);
         } else {
@@ -29,6 +28,7 @@ public class TimeoutTable<K, V> {
 
     public synchronized V get(K key) {
         if (table.containsKey(key)) {
+            countingTable.remove(key);
             countingTable.put(key, System.currentTimeMillis());
             System.out.println("Item was used : " + key);
             return table.get(key);

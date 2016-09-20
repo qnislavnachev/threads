@@ -21,14 +21,6 @@ public class TimeoutThread<K, V> extends Thread {
         return timeExpire > timeout;
     }
 
-    private void removeExpireKey(K key) {
-        if (isExpired(key)) {
-            table.remove(key);
-            countingTable.remove(key);
-            System.out.println("Key was removed : " + key);
-        }
-    }
-
     @Override
     public void run() {
         while (!table.isEmpty()) {
@@ -38,8 +30,17 @@ public class TimeoutThread<K, V> extends Thread {
                 System.out.println("Thread was interrupted !");
             }
             Iterator<K> it = countingTable.keySet().iterator();
-            K key = it.next();
-            removeExpireKey(key);
+            while (it.hasNext()) {
+                K key = it.next();
+                if (isExpired(key)) {
+                    it.remove();
+                    table.remove(key);
+                    countingTable.remove(key);
+                    System.out.println("Key was removed : " + key);
+                } else {
+                    break;
+                }
+            }
         }
     }
 }
